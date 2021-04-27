@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+<header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script>
+        function turnOnLoader() {
+            document.getElementById('loading').classList.remove('d-none')
+        }
+    </script>
+</header>
+
+<body style='background-color: #fefefa'>
+
+    <div class='container-fluid'>
+        <div class='sticky-top' style='background-color: #fefefa'>
+            <h1 style='margin-top: 10' class='row d-flex justify-content-center'>Jeopardy Question Generator</h1>
+            <form class="form-inline my-2 my-lg-0 d-flex justify-content-center" action='/', method='GET'>
+                <% if (data.found) { %>
+                    <input id='numQuestions' name='numQuestions' class="form-control mr-sm-2" type="text" placeholder="Number of Questions" value=<%=data.questions.length%> aria-label="numQuestions">
+                <% } else { %>
+                    <input id='numQuestions' name='numQuestions' class="form-control mr-sm-2" type="text" placeholder="Number of Questions" aria-label="numQuestions">
+                <% } %>
+                <button onclick='turnOnLoader()' type='submit' class="btn btn-outline-success my-2 my-sm-0">Generate!</button>
+                <div style='margin-left: 10' id='loading' class="spinner-border text-success d-none"></div>
+            </form>
+        </div>
+        <% if (data.found) { %>
+            <hr class='d-flex justify-content-center'>
+            <% data.questions.forEach(question => { %>
+                <p class='d-flex justify-content-center'><%=question%></p>
+                <hr class='d-flex justify-content-center'>
+            <% }) %>
+        <% } %>
+    </div>
+
+</body>
+
+</html>
