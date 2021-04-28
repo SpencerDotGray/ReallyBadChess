@@ -4,7 +4,7 @@
 
 <header>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <script>
         function turnOnLoader() {
@@ -12,7 +12,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: `http://really-bad-jeopardy.herokuapp.com"/${document.getElementById('numQuestions').value}`,
+                url: `/${document.getElementById('numQuestions').value}`,
                 success: function(result) {
                     
                     document.getElementById('loading').classList.add('d-none')
