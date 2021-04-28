@@ -3,9 +3,12 @@
 <html>
 
 <header>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function turnOnLoader() {
             document.getElementById('loading').classList.remove('d-none')
@@ -60,15 +63,43 @@
 
 <body style='background-color: #fefefa'>
 
+    <!-- Modal -->
+    <div class="modal fade" id='aboutModal' tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title">What does this do?</h2>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>This web app allows you to see Jeopardy questions that are generated based off of a Markov Model of roughly 217,000 previous Jeopardy Questions.</p>
+              <p>Since this is based off of other Jeopardy questions, yes, these are completely non-sensical.</p>
+              <p>That is exactly why I did it.</p>
+              <hr>
+              <p>Author: Spencer Gray</p>
+              <a href='https://www.github.com/SpencerDotGray/ReallyBadJeopardy' target='_blank'>Github Repo</a>
+              <p>Credit to Reddit user Trexmatt for his <a href='https://www.reddit.com/r/datasets/comments/1uyd0t/200000_jeopardy_questions_in_a_json_file/' target='_blank'>post</a> on r/datasets</p>
+            </div>
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
     <div id='base' class='container-fluid'>
         <div class='sticky-top' style='background-color: #fefefa'>
             <h1 style='margin-top: 10' class='row d-flex justify-content-center'>Jeopardy Question Generator</h1>
-            <div class="form-inline my-2 my-lg-0 d-flex justify-content-center">
-                <input id='numQuestions' name='numQuestions' class="form-control mr-sm-2" type="text" placeholder="Number of Questions" aria-label="numQuestions">
-                <button onclick='turnOnLoader()' class="btn btn-outline-success my-2 my-sm-0">Generate!</button>
+            <div class="form-inline d-flex justify-content-center">
+                <input id='numQuestions' name='numQuestions' class="form-control mr-2" type="text" placeholder="Number of Questions" aria-label="numQuestions">
+                <button onclick='turnOnLoader()' class="btn btn-outline-primary mr-2">Generate!</button>
+                <button type='button' class='btn btn-outline-secondary mr-2' data-toggle='modal' data-target='#aboutModal'>What is this?</button>
                 <div style='margin-left: 10' id='loading' class="spinner-border text-success d-none"></div>
             </div>
-            <h3 id='error' class='d-none justify-content-center'>No Questions Available Please Try Again</h3>
+            <h3 id='error' role='alert' class='alert-primary d-none justify-content-center'>No Questions Available Please Try Again</h3>
         </div>
         <div id='container'>
                 
