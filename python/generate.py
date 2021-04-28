@@ -93,7 +93,6 @@ def generate_markov_key(questions):
     return markov_key
 
 if __name__ == '__main__':
-
     
     if (not path.exists('markov.json')):
         df = pd.read_csv('./JEOPARDY_CSV.csv')
