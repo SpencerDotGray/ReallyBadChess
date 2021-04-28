@@ -112,5 +112,6 @@ if __name__ == '__main__':
             mk = json.load(json_file)
 
     for i in range(0, int(sys.argv[1])):
-        print(generate_question(6, 12, 25, mk).replace(' .', '.').replace(' ?', '?').replace('?.', '?'))   
+        # print(generate_question(6, 12, 25, mk).replace(' .', '.').replace(' ?', '?').replace('?.', '?'))  
+        print(i) 
     # print('hello wolrd')
