@@ -12,7 +12,13 @@ app.use(express.static(__dirname + '/public'))
 
 app.post('/:numQuestions', (req, res) => {
 
-    if (questions.length >= req.params.numQuestions) {
+    if (isNaN(req.params.numQuestions)) {
+        res.send({data: {found: false, nan: true}})
+    } else if (req.params.numQuestions > 1000) {
+        res.send({data: {found: false, toomany: true}})
+    } else if (req.params.numQuestions < 0) {
+        res.send({data: {found: false, negative: true}})
+    } else if (questions.length >= req.params.numQuestions) {
 
         questions.pop(0)
         var d = questions.slice(0, req.params.numQuestions)
@@ -23,7 +29,7 @@ app.post('/:numQuestions', (req, res) => {
             questions = questions.concat(list)
         })
     } else {
-        res.send({data: {found: false, length: req.params.numQuestions}})
+        res.send({data: {found: false, length: req.params.numQuestions, toomany: false}})
         generator.getQuestions(1000, (list) => {
             console.log('Compiled List')
             questions = questions.concat(list)

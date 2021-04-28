@@ -49,7 +49,16 @@
                         }
                     } else {
 
-                        if (result.data.length > 0) {
+                        if (result.data.toomany) {
+                            document.getElementById('loading').classList.add('d-none')
+                            alert('Too Many. Please keep it below 1000.')
+                        } else if (result.data.negative) {
+                            document.getElementById('loading').classList.add('d-none')
+                            alert('Now why would you want negative questions?')
+                        } else if (result.data.nan) {
+                            document.getElementById('loading').classList.add('d-none')
+                            alert('Numbers only please')
+                        } else if (result.data.length > 0) {
                             document.getElementById('error').classList.remove('d-none')
                             document.getElementById('error').classList.add('d-flex')
                             document.getElementById('loading').classList.add('d-none')
