@@ -9,6 +9,7 @@ function getQuestions(number, callback) {
         d.pop(0)
         
         callback(d)
+        return
     });
 }
 
