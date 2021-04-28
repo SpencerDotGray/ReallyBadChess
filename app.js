@@ -12,15 +12,15 @@ app.use(express.static(__dirname + '/public'))
 app.post('/:numQuestions', (req, res) => {
 
     console.log('post')
-    // const python = spawn('python', ['python/generate.py', req.params.numQuestions]);
-    // python.stdout.on('data', function (data) {
-    //     console.log('Pipe data from python script ...');
-    //     var d = data.toString().split('\n')
-    //     d.pop()
+    const python = spawn('python', ['python/generate.py', req.params.numQuestions]);
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        var d = data.toString().split('\n')
+        d.pop()
 
-    //     res.send({ data: { found: true, questions: d, length: d.length } } )
-    // });
-    res.send({ data: { found: true, questions: ['Hello', 'World'], length: 2 } } )
+        res.send({ data: { found: true, questions: d, length: d.length } } )
+    });
+    // res.send({ data: { found: true, questions: ['Hello', 'World'], length: 2 } } )
 });
 
 app.get('/', (req, res) => {

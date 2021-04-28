@@ -12,7 +12,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: `/${document.getElementById('numQuestions').value}`,
+                url: `http://really-bad-jeopardy.herokuapp.com"/${document.getElementById('numQuestions').value}`,
                 success: function(result) {
                     
                     document.getElementById('loading').classList.add('d-none')
