@@ -11,6 +11,7 @@ app.use(express.static(__dirname + '/public'))
 
 app.post('/:numQuestions', (req, res) => {
 
+    console.log('post')
     const python = spawn('python', ['python/generate.py', req.params.numQuestions]);
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');
