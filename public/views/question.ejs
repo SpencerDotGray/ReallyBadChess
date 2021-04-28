@@ -14,31 +14,43 @@
                 type: 'POST',
                 url: `/${document.getElementById('numQuestions').value}`,
                 success: function(result) {
-                    
-                    document.getElementById('loading').classList.add('d-none')
-                    var container = document.getElementById('container')
 
-                    while (container.firstChild) {
-                        container.removeChild(container.firstChild)
-                    }
+                    if (result.data.found) {
 
-                    var tag = document.createElement('hr')
-                    tag.classList.add('d-flex')
-                    tag.classList.add('justify-content-center')
-                    document.getElementById('container').appendChild(tag)
+                        document.getElementById('error').classList.add('d-none')
+                        document.getElementById('loading').classList.add('d-none')
+                        document.getElementById('error').classList.remove('d-flex')
+                        var container = document.getElementById('container')
 
-                    for (var i = 0; i < result.data.length; i++) {
-                        var tag = document.createElement('p')
-                        var text = document.createTextNode(result.data.questions[i])
-                        tag.appendChild(text)
-                        tag.classList.add('d-flex')
-                        tag.classList.add('justify-content-center')
-                        document.getElementById('container').appendChild(tag)
+                        while (container.firstChild) {
+                            container.removeChild(container.firstChild)
+                        }
 
                         var tag = document.createElement('hr')
                         tag.classList.add('d-flex')
                         tag.classList.add('justify-content-center')
                         document.getElementById('container').appendChild(tag)
+
+                        for (var i = 0; i < result.data.length; i++) {
+                            var tag = document.createElement('p')
+                            var text = document.createTextNode(result.data.questions[i])
+                            tag.appendChild(text)
+                            tag.classList.add('d-flex')
+                            tag.classList.add('justify-content-center')
+                            document.getElementById('container').appendChild(tag)
+
+                            var tag = document.createElement('hr')
+                            tag.classList.add('d-flex')
+                            tag.classList.add('justify-content-center')
+                            document.getElementById('container').appendChild(tag)
+                        }
+                    } else {
+
+                        if (result.data.length > 0) {
+                            document.getElementById('error').classList.remove('d-none')
+                            document.getElementById('error').classList.add('d-flex')
+                            document.getElementById('loading').classList.add('d-none')
+                        }
                     }
                 } 
             });
@@ -56,6 +68,7 @@
                 <button onclick='turnOnLoader()' class="btn btn-outline-success my-2 my-sm-0">Generate!</button>
                 <div style='margin-left: 10' id='loading' class="spinner-border text-success d-none"></div>
             </div>
+            <h3 id='error' class='d-none justify-content-center'>No Questions Available Please Try Again</h3>
         </div>
         <div id='container'>
                 
