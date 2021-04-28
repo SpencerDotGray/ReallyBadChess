@@ -91,23 +91,31 @@ def generate_markov_key(questions):
 
 if __name__ == '__main__':
     
-    if (not path.exists('markov.json')):
-        df = pd.read_csv('./JEOPARDY_CSV.csv')
-        df = df.rename(columns = {" Category":"Category"}) 
-        df = df.rename(columns = {" Air Date":"Air Date"})
-        df = df.rename(columns = {" Round":"Round"}) 
-        df = df.rename(columns = {" Value":"Value"}) 
-        df = df.rename(columns = {" Question":"Question"}) 
-        df = df.rename(columns = {" Answer":"Answer"})  
-        mk = generate_markov_key(df['Question'].values)
+    # if (not path.exists('markov.json')):
+    df = pd.read_csv('./JEOPARDY_CSV.csv')
+    df = df.rename(columns = {" Category":"Category"}) 
+    df = df.rename(columns = {" Air Date":"Air Date"})
+    df = df.rename(columns = {" Round":"Round"}) 
+    df = df.rename(columns = {" Value":"Value"}) 
+    df = df.rename(columns = {" Question":"Question"}) 
+    df = df.rename(columns = {" Answer":"Answer"})  
+    mk = generate_markov_key(df['Question'].values)
 
-        with open("markov.json", "w") as outfile: 
-            json.dump(mk, outfile)
-    else:
-        with open('markov.json') as json_file:
-            mk = json.load(json_file)
+    # with open("markov.json", "w") as outfile: 
+    #     json.dump(mk, outfile)
+    # else:
+    #     with open('markov.json') as json_file:
+    #         mk = json.load(json_file)
 
-    for i in range(0, int(sys.argv[1])):
-        print(generate_question(6, 12, 25, mk).replace(' .', '.').replace(' ?', '?').replace('?.', '?'))  
+    starters = {'starters': []}
+    for question in df['Question'].values:
+        if question.split(' ')[0] in mk.keys():
+            starters['starters'].append(question.split(' ')[0])
+
+    with open('markovStarters.json', 'w') as outfile:
+        json.dump(starters, outfile)
+
+    # for i in range(0, int(sys.argv[1])):
+    #     print(generate_question(6, 12, 25, mk).replace(' .', '.').replace(' ?', '?').replace('?.', '?'))  
         # print(i) 
     # print('hello wolrd')

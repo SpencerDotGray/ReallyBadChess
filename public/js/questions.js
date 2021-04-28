@@ -9,18 +9,26 @@ function advanceChain(word, end, mv) {
         }
         return '.'
     } else {
+        
         var index = Math.floor(Math.random() * mv[word].length)
+
+        // if (!end) {
+        //     while (mv[word].includes('.') && mv[word].length > 1 && mv[word][index] == '.') {
+        //         index = Math.floor(Math.random() * mv[word].length)
+        //     }
+        // }
+        // return mv[word][index]
+
         return mv[word][index]
     }
 }
 
 
-function generateQuestion(min, max, cutoff, mv) {
+function generateQuestion(min, max, cutoff, mv, starters) {
 
     var dl = Math.floor(Math.random() * max+min) - min
     var i = 0
-    var words = mv.keys
-    var word = words[Math.floor(Math.random() * words.length)]
+    var word = starters[Math.floor(Math.random() * starters.length)]
     var result = word
 
     while (i < cutoff) {
@@ -34,29 +42,29 @@ function generateQuestion(min, max, cutoff, mv) {
 
         i += 1
     }
-    return result
+    return result.replace(' .', '.').replace('?.', '?').replace(' ?', '?')
 }
 
 function getQuestions(number, callback) {
-    
-    // const python = spawn('python', ['python/generate.py', number]);
-    // python.stdout.on('data', function (data) {
-    //     // console.log('Pipe data from python script ...');
-    //     var d = data.toString().split('\n')
-    //     d.pop(0)
-        
-    //     callback(d)
-    //     return
-    // });
 
     try {
         const jsonString = fs.readFileSync('./markov.json')
         const mv = JSON.parse(jsonString)
 
+        var starters
+
+        try {
+            const jsonString = fs.readFileSync('./markovStarters.json')
+            starters = JSON.parse(jsonString).starters
+        } catch(err) {
+            console.log('Using random words instead of starters')
+            starters = mv.keys
+        }
+
         output = []
 
         for (var i = 0; i < number; i++) {
-            output.push(generateQuestion(6, 12, 25, mv))
+            output.push(generateQuestion(6, 12, 25, mv, starters))
         }
         callback(output)
     } catch(err) {
