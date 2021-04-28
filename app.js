@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
             var d = data.toString().split('\n')
             d.pop()
 
-            res.render('question', {data: {found: true, questions: d}})
+            res.render('question', { data: { found: true, questions: d, length: d.length } } )
         });
     } else {
         res.render('question', {data: {found: false}})

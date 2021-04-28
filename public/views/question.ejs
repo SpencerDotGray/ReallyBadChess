@@ -20,7 +20,7 @@
             <h1 style='margin-top: 10' class='row d-flex justify-content-center'>Jeopardy Question Generator</h1>
             <form class="form-inline my-2 my-lg-0 d-flex justify-content-center" action='/', method='GET'>
                 <% if (data.found) { %>
-                    <input id='numQuestions' name='numQuestions' class="form-control mr-sm-2" type="text" placeholder="Number of Questions" value=<%=data.questions.length%> aria-label="numQuestions">
+                    <input id='numQuestions' name='numQuestions' class="form-control mr-sm-2" type="text" placeholder="Number of Questions" value=<%=data.length%> aria-label="numQuestions">
                 <% } else { %>
                     <input id='numQuestions' name='numQuestions' class="form-control mr-sm-2" type="text" placeholder="Number of Questions" aria-label="numQuestions">
                 <% } %>
