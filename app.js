@@ -16,10 +16,12 @@ app.post('/:numQuestions', (req, res) => {
 
         questions.pop(0)
         var d = questions.slice(0, req.params.numQuestions)
-        for (var i = 0; i < req.params.numQuestions; i++) {
-            questions.pop(0)
-        }
+        questions = questions.slice(req.params.numQuestions+1, questions.length)
         res.send({data: {found: true, questions: d, length: d.length}})
+
+        generator.getQuestions(req.params.numQuestions + 2, (list) => {
+            questions = questions.concat(list)
+        })
     } else {
         res.send({data: {found: false, length: req.params.numQuestions}})
     }
