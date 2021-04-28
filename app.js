@@ -24,6 +24,9 @@ app.post('/:numQuestions', (req, res) => {
         })
     } else {
         res.send({data: {found: false, length: req.params.numQuestions}})
+        generator.getQuestions(1000, (list) => {
+            questions = list
+        })
     }
 });
 
@@ -34,8 +37,4 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server Open on Port ${port}`)
-  questions = []
-  generator.getQuestions(10000, (list) => {
-      questions = list
-  })
 })
