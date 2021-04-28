@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
     if (req.query.numQuestions != undefined) {
 
-        const python = spawn('python', ['python/test.py', req.query.numQuestions]);
+        const python = spawn('python', ['python/generate.py', req.query.numQuestions]);
         python.stdout.on('data', function (data) {
             console.log('Pipe data from python script ...');
             var d = data.toString().split('\n')
