@@ -3,7 +3,7 @@ const express = require('express');
 const request = require('request');
 const generator = require('./public/js/questions.js')
 const app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 4000;
 var questions = [] 
 
 app.set('views', __dirname + '/public/views')
