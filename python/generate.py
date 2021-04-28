@@ -52,9 +52,6 @@ def generate_question(min_length, max_length, cutoff, markov_key):
     result = word
     while i < cutoff:
 
-        if i < desiredLength and (word == '.' or word == '!' or word == '?'):
-            continue
-
         word = advanceChain(word, end=(i > desiredLength))
         result += f' {word.strip()}'
 
