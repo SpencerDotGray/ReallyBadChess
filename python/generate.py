@@ -20,7 +20,7 @@ def replace_punc(word):
     return word
 
 
-def generate_question(min_length, max_length, cutoff, markov_key):
+def generate_question(min_length, max_length, cutoff, markov_key, starters):
     
     def advanceChain(word, end=False):
 
@@ -47,8 +47,7 @@ def generate_question(min_length, max_length, cutoff, markov_key):
     desiredLength = random.randint(min, max)
 
     i = 0
-    words = [str(x) for x in markov_key.keys()]
-    word = words[random.randint(0, len(words)-1)]
+    word = starters['data'][random.randint(0, len(starters['data'])-1)]
     result = word
     while i < cutoff:
 
@@ -59,8 +58,16 @@ def generate_question(min_length, max_length, cutoff, markov_key):
             i = cutoff
 
         i += 1
-    return result
+    return result.replace('.?', '?').replace(' .', '.').replace(' ?', '?')
         
+def generate_starters(questions, mv):
+    starters = {'data': []}
+    for question in questions:
+        if question.split(' ')[0] in mv.keys():
+            starters['data'].append(question.split(' ')[0])
+    return starters
+
+
 def generate_markov_key(questions):
     markov_key = {}
 
@@ -89,33 +96,79 @@ def generate_markov_key(questions):
                     markov_key[word] = []
     return markov_key
 
+def get_questions(number, category=None):
+
+    if (not path.exists(f'datasets/markov{category}.json') or not path.exists(f'datasets/markovStarters{category}.json')):
+        df = pd.read_csv('./JEOPARDY_CSV.csv')
+        df = df.rename(columns = {" Category":"Category"}) 
+        df = df.rename(columns = {" Air Date":"Air Date"})
+        df = df.rename(columns = {" Round":"Round"}) 
+        df = df.rename(columns = {" Value":"Value"}) 
+        df = df.rename(columns = {" Question":"Question"}) 
+        df = df.rename(columns = {" Answer":"Answer"})  
+
+        if category is not None and category in df['Category'].values:
+            df = df.loc[df['Category'] == category]
+
+        mk = generate_markov_key(df['Question'].values)
+        starters = generate_starters(df['Question'].values, mk)
+
+        with open(f"datasets/markov{category}.json", "w") as outfile: 
+            json.dump(mk, outfile)
+        with open(f'datasets/markovStarters{category}.json', 'w') as outfile:
+            json.dump(starters, outfile)
+        
+    else:
+        with open(f'datasets/markov{category}.json') as json_file:
+            mk = json.load(json_file)
+        with open(f'datasets/markovStarters{category}.json') as json_file:
+            starters = json.load(json_file)
+    
+    output = []
+    for i in range(0, int(sys.argv[1])):
+        output.append(generate_question(6, 12, 25, mk, starters))
+    return output
+
 if __name__ == '__main__':
     
-    # if (not path.exists('markov.json')):
-    df = pd.read_csv('./JEOPARDY_CSV.csv')
-    df = df.rename(columns = {" Category":"Category"}) 
-    df = df.rename(columns = {" Air Date":"Air Date"})
-    df = df.rename(columns = {" Round":"Round"}) 
-    df = df.rename(columns = {" Value":"Value"}) 
-    df = df.rename(columns = {" Question":"Question"}) 
-    df = df.rename(columns = {" Answer":"Answer"})  
-    mk = generate_markov_key(df['Question'].values)
+    category = ''
+    if len(sys.argv) > 2:
+        category = sys.argv[2]
 
-    # with open("markov.json", "w") as outfile: 
-    #     json.dump(mk, outfile)
-    # else:
-    #     with open('markov.json') as json_file:
-    #         mk = json.load(json_file)
+    if (not path.exists(f'datasets/markov{category}.json') or not path.exists(f'datasets/markovStarters{category}.json')):
+        df = pd.read_csv('./JEOPARDY_CSV.csv')
+        df = df.rename(columns = {" Category":"Category"}) 
+        df = df.rename(columns = {" Air Date":"Air Date"})
+        df = df.rename(columns = {" Round":"Round"}) 
+        df = df.rename(columns = {" Value":"Value"}) 
+        df = df.rename(columns = {" Question":"Question"}) 
+        df = df.rename(columns = {" Answer":"Answer"})  
 
-    starters = {'starters': []}
-    for question in df['Question'].values:
-        if question.split(' ')[0] in mk.keys():
-            starters['starters'].append(question.split(' ')[0])
+        if category not in df['Category'].values:
+            category = ''
 
-    with open('markovStarters.json', 'w') as outfile:
-        json.dump(starters, outfile)
+        if category != '' and category in df['Category'].values:
+            df = df.loc[df['Category'] == category]
 
-    # for i in range(0, int(sys.argv[1])):
-    #     print(generate_question(6, 12, 25, mk).replace(' .', '.').replace(' ?', '?').replace('?.', '?'))  
-        # print(i) 
-    # print('hello wolrd')
+        mk = generate_markov_key(df['Question'].values)
+        starters = generate_starters(df['Question'].values, mk)
+
+        with open(f"datasets/markov{category}.json", "w") as outfile: 
+            json.dump(mk, outfile)
+        with open(f'datasets/markovStarters{category}.json', 'w') as outfile:
+            json.dump(starters, outfile)
+        
+    else:
+        with open(f'datasets/markov{category}.json') as json_file:
+            mk = json.load(json_file)
+        with open(f'datasets/markovStarters{category}.json') as json_file:
+            starters = json.load(json_file)
+    
+    print('[', end='')
+    for i in range(0, int(sys.argv[1])):
+        if i != 0:
+            print('\n', end='')
+        print(f'"{generate_question(6, 12, 25, mk, starters)}"', end='')
+        if i != int(sys.argv[1])-1:
+            print(',', end='')
+    print(']')
