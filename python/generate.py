@@ -107,6 +107,10 @@ def get_questions(number, category=None):
         df = df.rename(columns = {" Question":"Question"}) 
         df = df.rename(columns = {" Answer":"Answer"})  
 
+        if category not in df['Category'].values:
+            print(f'{category} NOT IN DATASET')
+            category = ''
+
         if category is not None and category in df['Category'].values:
             df = df.loc[df['Category'] == category]
 
@@ -131,44 +135,11 @@ def get_questions(number, category=None):
 
 if __name__ == '__main__':
     
-    category = ''
+    category = None
     if len(sys.argv) > 2:
         category = sys.argv[2]
 
-    if (not path.exists(f'datasets/markov{category}.json') or not path.exists(f'datasets/markovStarters{category}.json')):
-        df = pd.read_csv('./JEOPARDY_CSV.csv')
-        df = df.rename(columns = {" Category":"Category"}) 
-        df = df.rename(columns = {" Air Date":"Air Date"})
-        df = df.rename(columns = {" Round":"Round"}) 
-        df = df.rename(columns = {" Value":"Value"}) 
-        df = df.rename(columns = {" Question":"Question"}) 
-        df = df.rename(columns = {" Answer":"Answer"})  
-
-        if category not in df['Category'].values:
-            category = ''
-
-        if category != '' and category in df['Category'].values:
-            df = df.loc[df['Category'] == category]
-
-        mk = generate_markov_key(df['Question'].values)
-        starters = generate_starters(df['Question'].values, mk)
-
-        with open(f"datasets/markov{category}.json", "w") as outfile: 
-            json.dump(mk, outfile)
-        with open(f'datasets/markovStarters{category}.json', 'w') as outfile:
-            json.dump(starters, outfile)
-        
-    else:
-        with open(f'datasets/markov{category}.json') as json_file:
-            mk = json.load(json_file)
-        with open(f'datasets/markovStarters{category}.json') as json_file:
-            starters = json.load(json_file)
+    for question in get_questions(int(sys.argv[1]), category):
+        print(f'{question}\n')
     
-    print('[', end='')
-    for i in range(0, int(sys.argv[1])):
-        if i != 0:
-            print('\n', end='')
-        print(f'"{generate_question(6, 12, 25, mk, starters)}"', end='')
-        if i != int(sys.argv[1])-1:
-            print(',', end='')
-    print(']')
+

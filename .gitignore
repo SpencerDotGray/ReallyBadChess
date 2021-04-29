@@ -10,6 +10,7 @@ lerna-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 public/python/datasets/
+datasets/*.json
 
 # Runtime data
 pids
