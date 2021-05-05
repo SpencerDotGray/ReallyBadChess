@@ -1,0 +1,1 @@
+{"Panda": ["hyena"], "hyena": ["or"], "or": ["lion", "pronghorn", "zebra", "kangaroo", "dove"], "lion": ["."], ".": [], "Deer": ["or"], "pronghorn": ["."], "Horse": ["or"], "zebra": ["."], "Wallaby": ["koala"], "koala": ["or"], "kangaroo": ["."], "Pigeon": ["or"], "dove": ["."]}

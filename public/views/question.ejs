@@ -15,7 +15,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: `/${document.getElementById('numQuestions').value}`,
+                url: `/${document.getElementById('numQuestions').value}/${document.getElementById('cats').value}`,
                 success: function(result) {
 
                     if (result.data.found) {
@@ -67,6 +67,10 @@
                 } 
             });
         }
+
+        function setDDText(text) {
+            document.getElementById("ddButton").text = text
+        }
     </script>
 </header>
 
@@ -103,6 +107,11 @@
         <div class='sticky-top' style='background-color: #fefefa'>
             <h1 style='margin-top: 10' class='row d-flex justify-content-center'>Jeopardy Question Generator</h1>
             <div class="form-inline d-flex justify-content-center">
+                <select class='custom-select' name='cats' id='cats'>
+                    <% cats.forEach(cat => { %>
+                        <option value=<%=cat%>><%=cat%></option>
+                    <% }) %>
+                </select>
                 <input id='numQuestions' name='numQuestions' class="form-control mr-2" type="text" placeholder="Number of Questions" aria-label="numQuestions">
                 <button onclick='turnOnLoader()' class="btn btn-outline-primary mr-2">Generate!</button>
                 <button type='button' class='btn btn-outline-secondary mr-2' data-toggle='modal' data-target='#aboutModal'>What is this?</button>

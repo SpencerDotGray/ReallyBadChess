@@ -1,0 +1,1 @@
+{"The": ["kangaroo", "rat", "bandicoot", "woodchuck", "aye-aye", "porcupine", "Tasmanian", "chinchilla", "macaque", "wombat"], "kangaroo": ["rat", "."], "rat": [".", "kangaroo"], ".": [], "bandicoot": ["."], "woodchuck": ["."], "aye-aye": ["."], "porcupine": ["."], "Tasmanian": ["Devil"], "Devil": ["."], "chinchilla": ["."], "macaque": ["."], "wombat": ["."]}
