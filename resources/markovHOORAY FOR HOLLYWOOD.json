@@ -1,1 +1,0 @@
-{"A": ["pizzeria"], "pizzeria": ["a"], "a": ["souvenir", "candy", "defunct"], "souvenir": ["shop"], "shop": ["a"], "candy": ["factory"], "factory": ["&"], "&": ["a", "this"], "defunct": ["loan"], "loan": ["co"], "co": ["now"], "now": ["stand"], "stand": ["at"], "at": ["Hollywood"], "Hollywood": ["Blvd"], "Blvd": ["."], ".": [], "this": ["street"], "street": ["."]}
