@@ -32,9 +32,10 @@ function App() {
     })
   }
 
-  const Test = (e) => {
+  const ClickCategory = (e) => {
+    
     const cat = e.target.ariaLabel;
-    console.log(cat)
+    jeopardyWorker.getRefinedQuestions(cat, setCategories);
   }
   
 
@@ -48,7 +49,7 @@ function App() {
           {categories.map( (item, index) => {
             return (
               <Col key={index}>
-                <Card bg='light' style={{ height: '10rem', row: '10rem' }} onClick={Test} aria-label={item}>
+                <Card bg='light' style={{ height: '10rem', row: '10rem' }} onClick={ClickCategory} aria-label={item}>
                   <Card.Text aria-label={item} style={{  color: 'darkslategrey' }}>
                     {item}
                   </Card.Text>
