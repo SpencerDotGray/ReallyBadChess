@@ -196,10 +196,10 @@ if __name__ == '__main__':
     df = df.rename(columns = {" Question":"Question"}) 
     df = df.rename(columns = {" Answer":"Answer"})  
 
-    # l = []
-    # for category in df['Category'].values:
-    #     if category not in l:
-    #         l.append(category)
+    l = []
+    for category in df['Category'].values:
+        if category not in l:
+            l.append(category)
     
     # p = []
     # for i in range(0, 4):
@@ -222,11 +222,19 @@ if __name__ == '__main__':
     # for cat in to_remove:
     #     l.remove
 
-    get_questions(df, 1, '')
+    # get_questions(df, 1, '')
 
-    # with open('categories.txt', 'w') as fileout:
+    with open('categories.txt', 'w') as fileout:
 
-    #     for cat in l:
-    #         cat = cat.replace('/', '-')
-    #         fileout.write(f'{cat}\n')   
+        ll = []
+        for cat in l:
+            cat = cat.replace('/', '-')
+            cat = cat.replace('"', '')
+            cat = cat.replace("'", '')
+
+            if cat not in ll:
+                ll.append(cat)
+
+        for cat in ll:
+            fileout.write(f'"{cat}",\n')   
  
